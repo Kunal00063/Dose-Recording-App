@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Active Dose Records</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .navbar-brand {
+      font-weight: 600;
+      font-size: 1.3rem;
+      letter-spacing: 0.5px;
+    }
+
+    .sat-part {
+      color: #d8ec05;
+      font-weight: 700;
+    }
+
+    /* Custom nav button */
+    .nav-btn {
+      background-color: #d8ec05;
+      color: #000;
+      font-weight: 600;
+      border-radius: 6px;
+      padding: 6px 14px;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .nav-btn:hover {
+      background-color: #c4d904;
+      color: #000;
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container d-flex justify-content-between align-items-center">
+
+      <!-- Brand -->
+      <a class="navbar-brand" href="#" style="font-size: 30px;">
+        <span class="sat-part">sat.136&gt;</span> Dose Record
+      </a>
+
+      <!-- Dose Statistics Button -->
+      <a href="http://10.20.150.4:50/stats" class="btn nav-btn">
+        Dose Statistics
+      </a>
+
+    </div>
+  </nav>
+
+
+    <div class="container my-4">
+      
+      <h2>Please enter your active dosimeter records!</h2>
+
+      <form class="row g-3 needs-validation my-3" action="/" method="POST" novalidate>
+  <div class="col-md-2">
+    <label for="Name" class="form-label">Name</label>
+    <input type="text" class="form-control" name = "Name" id="Name">
+    <div class="valid-feedback">
+      Looks good!
+    </div>
+  </div>
+  <div class="col-md-3">
+    <label for="Purpose" class="form-label">Purpose of Work</label>
+    <input type="text" class="form-control" name = "Purpose" id="Purpose">
+    <div class="valid-feedback">
+      Looks good!
+    </div>
+  </div>
+  <div class="col-md-2">
+    <label for="Dosimeter" class="form-label">Dosimeter</label>
+    <select class="form-select" name = "Dosimeter" id="Dosimeter" required>
+      <option selected disabled value="">Choose...</option>
+      <option>4150</option>
+      <option>4170</option>
+      <option>4171</option>
+      <option>4172</option>
+      <option>4173</option>
+    </select>
+    <div class="invalid-feedback">
+      Please select a valid state.
+    </div>
+  </div>
+  <div class="col-md-2">
+  <label for="Time_In" class="form-label">Time In</label>
+  <input type="time" class="form-control" name = "Time_In" id="Time_In" required>
+  <div class="valid-feedback">
+    Time selected!
+  </div>
+  <div class="invalid-feedback">
+    Please choose a valid time.
+  </div>
+</div>
+  <div class="col-md-2">
+  <label for="Time_Out" class="form-label">Time Out</label>
+  <input type="time" class="form-control" name = "Time_Out" id="Time_Out" required>
+  <div class="valid-feedback">
+    Time selected!
+  </div>
+  <div class="invalid-feedback">
+    Please choose a valid time.
+  </div>
+</div>
+  
+  <div class="col-md-1">
+    <label for="Dose" class="form-label">Dose</label>
+    <input type="text" class="form-control" name = "Dose" id="Dose" required>
+    <div class="invalid-feedback">
+      Please provide a valid zip.
+    </div>
+  </div>
+  <div class="col-12">
+    <button class="btn btn-primary" type="submit">Submit record</button>
+  </div>
+</form>
+    </div>
+
+  <div class="text-end mx-4">
+  <form action="/delete_latest" method="POST"
+        onsubmit="return confirm('Delete most recent record?');">
+    <button class="btn btn-danger" style="position: relative; left: -40px;">Delete Last Record</button>
+  </form>
+</div>  
+
+
+
+
+    <div class="container" ><table class="table table-striped">
+        <h3>Previous Dose records</h3>
+  <thead>
+    <tr>
+      <th scope="col">SNo</th>
+      <th scope="col">Date</th>
+      <th scope="col">Name</th>
+      <th scope="col">Purpose of Work</th>
+      <th scope="col">Dosimeter</th>
+      <th scope="col">Time In</th>
+      <th scope="col">Time Out</th>
+      <th scope="col">Dose</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for rec in allSat136 %}
+    <tr>
+      <th scope="row">{{loop.index}}</th>
+      <td>{{rec.Date}}</td>
+      <td>{{rec.Name}}</td>
+      <td>{{rec.Purpose}}</td>
+      <td>{{rec.Dosimeter}}</td>
+      <td>{{rec.Time_In}}</td>
+      <td>{{rec.Time_Out}}</td>
+      <td>{{rec.Dose}}</td>
+    </tr>  
+    {% endfor %}
+    
+  </tbody>
+</table></div>
+
+    
+  </body>
+</html>
